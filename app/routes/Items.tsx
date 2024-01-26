@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 export async function loader() {
           // use drizzle to get the dataset(s)
   const dataSets =  db.select().from(items).all()
-  return json(dataSets); // key value pairs
+  return json(dataSets); // array of key value pairs
 }
 
           // backend  function 
@@ -65,7 +65,7 @@ export async function action({
             // front end rendering
 export default function DisplayItems() {
 
-const Items = useLoaderData <typeof loader>();
+const Items = useLoaderData <typeof loader>(); // Items = dataset(s), json, array of key value pairs
 
     return (
       <main>
