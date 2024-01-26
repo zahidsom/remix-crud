@@ -11,7 +11,7 @@ AND Multiple Forms on single page.
 
 haven't included  CRUD Update because there is no new concepts for updates,
 it is repeat of delete for capturing  form data  with drizzle  sql statement
-with same where clause.
+and same where clause.
 
 From your terminal:
 
