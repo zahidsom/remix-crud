@@ -16,8 +16,8 @@ export async function action({
   request,
 }: ActionFunctionArgs) {
 
-                // grab form fields values including button name & value
   const formData = await request.formData();  
+                // grab _action field by name,  then rest of form fields as key/value pair  -- destructuring                
   const {_action, ...values} = Object.fromEntries(formData);  
 
                 //    let {...values} = Object.fromEntries(formData);  
@@ -30,7 +30,8 @@ export async function action({
                 //  console.log("title:", values.title, "description:", values.description);
               // console.log("action is :",_action)
 
-               // test for button.name and button.value
+                 // test form element named  _action  although passed as button
+                // is just a form field , test if value of it is equal to "create"               
    if (_action == "create")
    {
               // db.insert(items).values(
@@ -54,7 +55,6 @@ export async function action({
       } 
   }             
 
-          // test for button.name and button.value
    if(_action == "delete")
    {
        return   await db.delete(items).where(eq(items.id, values.id));
