@@ -1,4 +1,4 @@
-# App Name: REM-CRUD
+# App Name: REMIX-CRUD
 
 Fullstack  CRUD Application Demonstrating  integration of 
 drizzle ORM https://orm.drizzle.team/docs/select ,
