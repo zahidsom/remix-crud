@@ -13,12 +13,6 @@ haven't included  CRUD Update because there is no new concepts for updates,
 it is repeat of delete for capturing  form data  with drizzle  sql statement
 with same where clause.
 
-## Initialisation 
-N.B. remember for recreation of schema
-```sh
-npm run db:migrations 
-```
-
 From your terminal:
 
 ```sh
