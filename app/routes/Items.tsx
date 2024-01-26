@@ -23,11 +23,10 @@ export async function action({
 
                 //  let title = String(formData.get("title"));
                 //  let desc = String(formData.get("description"));
-
  
-              //  console.log(" content of values:"  + JSON.stringify(values)  )
-              // console.log("result:", values);
-  console.log("content of values:", values, "title:", values.title, "description:", values.description);
+                //  console.log(" content of values:"  + JSON.stringify(values)  )
+  console.log("result:", values);
+                //  console.log("title:", values.title, "description:", values.description);
               // console.log("action is :",_action)
 
    if(_action =="create")
@@ -45,8 +44,8 @@ export async function action({
         db.insert(items).values({
         title: values.title,
         description: values.description,
-        createdAt: String(new Date().toLocaleDateString("en-PK",)),
-        updatedAt: String(new Date().toLocaleDateString("en-PK"))
+        createdAt: String(new Date().toLocaleDateString("en-GB",)),
+        updatedAt: String(new Date().toLocaleDateString("en-GB"))
         }).run()
         return {
           success: true,
@@ -66,26 +65,26 @@ export async function action({
             // front end rendering
 export default function DisplayItems() {
 
-  const Items = useLoaderData <typeof loader>();
+const Items = useLoaderData <typeof loader>();
 
     return (
       <main>
           <h1>Items</h1>
          {Items.length ? (
             <ul>
-                { Items.map((item) => ( // map json key value pair 
+                { Items.map((item) => ( // map on Items, a json type, key value pair
                 <li key={item.id}>
                    {item.id} {" "} {item.title} {item.description}
 
                    <Form style={{display: "inline",}} method="post">
-                    <input type="hidden" name="id" value={item.id} />  {/* for use in delete in the where clause */}
+                    <input type="hidden" name="id" value={item.id} />  {/* for use in delete,  where clause */}
                               {/*   <input type="hidden" name="createAt" value={item.createdAt} /> */}
                       <button
                        type="submit"
                        aria-label="delete"
                        name="_action"
                        value="delete"
-                       style={{margin: "0 0 0 1em"}}>
+                       style={{margin: "0 0 0 1rem"}}>
                         x
                       </button>
                    </Form>
