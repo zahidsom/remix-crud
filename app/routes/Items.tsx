@@ -16,48 +16,50 @@ export async function action({
   request,
 }: ActionFunctionArgs) {
 
-   //  data received from browser HTML form     
-  const   {...values} = Object.fromEntries(await request.formData());
+              //  data received from browser HTML form fields in the request object
+      const   {...values} = Object.fromEntries(await request.formData());
+            //  let   values = Object.fromEntries(await request.formData());
+      
+      //  form data Validation via zod 
+      const actionSchema = zfd.formData({
+        _action: zfd.text(),
+      });
+      const { _action, } = actionSchema.parse(values);
 
-  //  form data Validation via zod 
-  const actionSchema = zfd.formData({
-    _action: zfd.text(),
-  });
-  const { _action, } = actionSchema.parse(values);
-  1
-   if (_action == "create") {
-            const createSchema = zfd.formData({
-              _title: zfd.text(),
-              _description: zfd.text().optional(),
-            });  
-            const { _title, _description } = createSchema.parse(values);
+  switch(_action) {
+    case "create":
+                const createSchema = zfd.formData({
+                  _title: zfd.text(),
+                  _description: zfd.text(),
+                  });  
+                const { _title, _description } = createSchema.parse(values);
 
-        db.insert(items).values({
-        title: _title,
-        description: _description,
-        createdAt: String(new Date().toLocaleDateString("en-GB",)),
-        updatedAt: String(new Date().toLocaleDateString("en-GB"))
-        }).run()
-        return {
-          success: true,
-      }
-  }
+                db.insert(items).values({
+                title: _title,
+                description: _description,
+                createdAt: String(new Date().toLocaleDateString("en-GB",)),
+                updatedAt: String(new Date().toLocaleDateString("en-GB"))
+                }).run()
 
-   if(_action == "delete")
-   {
-        const deleteSchema = zfd.formData({
-          _id:  zfd.numeric(z.number()),
-        });  
-        const { _id, } = deleteSchema.parse(values);
+              return {
+                success: true,
+            }
 
-       return   await db.delete(items).where(eq(items.id, _id));
-   }             
+     case "delete":       
+                  const deleteSchema = zfd.formData({
+                    _id:  zfd.numeric(z.number()),
+                  });  
+                  const { _id, } = deleteSchema.parse(values);
+                  return   await db.delete(items).where(eq(items.id, _id));``
+     default:
+            return {
+              success: true,
+            }
 
-   return {
-     success: true,
-   }
-} // action()
+    } // switch
 
+  } // action()
+             
             // front end rendering
 export default function DisplayItems() {
 
@@ -88,7 +90,7 @@ const Items = useLoaderData <typeof loader>(); // Items =  dataset(s) of type js
              ))}
             </ul>
            ) : (
-            <p> Empty Item List </p>
+            <p> Empty Items List </p>
           )} 
 
           <Form method="post" >
