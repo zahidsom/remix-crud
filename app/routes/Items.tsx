@@ -25,9 +25,7 @@ export async function action({
   _description: zfd.text().optional(),
   });
   
-  const { _action, _id,_title, _description } = schema.parse(
-    await request.formData()
-  );
+  const { _action, _id,_title, _description } = schema.parse(await request.formData());
 
    if (_action == "create")
    {
