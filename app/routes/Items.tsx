@@ -128,6 +128,35 @@ export async function action({
   );
 
    if (_action == "create")
+import { db } from "~/db/config.server";
+import { ActionFunctionArgs, json} from "@remix-run/node";
+import { Form, Link, useLoaderData } from "@remix-run/react";
+import { items } from "~/db/schema.server";
+import { eq } from "drizzle-orm";
+import { zfd } from "zod-form-data";
+import { z } from 'zod';
+
+export async function loader() {
+          // use drizzle to get the dataset(s)
+  const dataSets =  db.select().from(items).all()
+  return json(dataSets); 
+}
+
+
+export async function action({
+  request,
+}: ActionFunctionArgs) {
+
+  const schema = zfd.formData({
+   _id:  zfd.numeric(z.number()),
+   _action: zfd.text(),
+   _title: zfd.text(),
+  _description: zfd.text().optional(),
+  });
+  
+  const { _action, _id,_title, _description } = schema.parse(await request.formData());
+
+   if (_action == "create")
    {
         db.insert(items).values({
         title: _title,
@@ -185,7 +214,7 @@ const Items = useLoaderData <typeof loader>(); // Items =  dataset(s) of type js
           )} 
 
           <Form method="post" >
-            <input type="hidden" name="_id" value={1} />  {/* satisfy zod required */}
+            <input type="hidden" name="_id" value={1} />  {/* satisfy zod's required error  */}
             <input type="text" name="_title" placeholder="Enter title" required /> {" "}
             <input type="text" name="_description" placeholder="Enter description" required /> {" "}
             <button type="submit" name="_action" value="create">Add</button>
