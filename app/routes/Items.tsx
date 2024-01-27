@@ -3,50 +3,37 @@ import { ActionFunctionArgs, json} from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { items } from "~/db/schema.server";
 import { eq } from "drizzle-orm";
+import { zfd } from "zod-form-data";
+import { z } from 'zod';
 
-          // backend  function 
+
 export async function loader() {
           // use drizzle to get the dataset(s)
   const dataSets =  db.select().from(items).all()
-  return json(dataSets); // array of key value pairs
+  return json(dataSets); 
 }
 
-          // backend  function 
+
 export async function action({
   request,
 }: ActionFunctionArgs) {
 
-  const formData = await request.formData();  
-                // grab _action field by name,  then rest of form fields as key/value pair  -- destructuring                
-  const {_action, ...values} = Object.fromEntries(formData);  
+  const schema = zfd.formData({
+   _id:  zfd.numeric(z.number()),
+   _action: zfd.text(),
+   _title: zfd.text(),
+  _description: zfd.text().optional(),
+  });
+  
+  const { _action, _id,_title, _description } = schema.parse(
+    await request.formData()
+  );
 
-                //    let {...values} = Object.fromEntries(formData);  
-
-                //  let title = String(formData.get("title"));
-                //  let desc = String(formData.get("description"));
- 
-                //  console.log(" content of values:"  + JSON.stringify(values)  )
-  console.log("result:", values);
-                //  console.log("title:", values.title, "description:", values.description);
-              // console.log("action is :",_action)
-
-                 // test form element named  _action  although passed as button
-                // is just a form field , test if value of it is equal to "create"               
    if (_action == "create")
    {
-              // db.insert(items).values(
-              //                 { ...values }).run()
-
-              // export async function action() {
-              //   db.insert(items).values({ title: "Item title 12" }).run()
-              //   return {
-              //     success: true,
-              //   }
-              // }
-
         db.insert(items).values({
-        title: values.title,
-        description: values.description,
+        title: _title,
+        description: _description,
         createdAt: String(new Date().toLocaleDateString("en-GB",)),
         updatedAt: String(new Date().toLocaleDateString("en-GB"))
         }).run()
@@ -57,7 +44,7 @@ export async function action({
 
    if(_action == "delete")
    {
-       return   await db.delete(items).where(eq(items.id, values.id));
+       return   await db.delete(items).where(eq(items.id, _id));
    }             
 
    return {
@@ -68,20 +55,20 @@ export async function action({
             // front end rendering
 export default function DisplayItems() {
 
-const Items = useLoaderData <typeof loader>(); // Items = dataset(s), json, array of key value pairs
+const Items = useLoaderData <typeof loader>(); // Items =  dataset(s) of type json
 
     return (
       <main>
           <h1>Items</h1>
          {Items.length ? (
             <ul>
-                { Items.map((item) => ( // map on Items, a json type, key value pair
+                { Items.map((item) => ( 
                 <li key={item.id}>
                    {item.id} {" "} {item.title} {item.description}
 
                    <Form style={{display: "inline",}} method="post">
-                    <input type="hidden" name="id" value={item.id} />  {/* for use in delete,  where clause */}
-                              {/*   <input type="hidden" name="createAt" value={item.createdAt} /> */}
+                    <input type="hidden" name="_id" value={item.id} />  {/* for use in delete,  where clause */}
+                    <input type="hidden" name="_title" value={item.title} />  {/* to satisfy zod */}
                       <button
                        type="submit"
                        aria-label="delete"
@@ -100,8 +87,9 @@ const Items = useLoaderData <typeof loader>(); // Items = dataset(s), json, arra
           )} 
 
           <Form method="post" >
-            <input type="text" name="title" placeholder="Enter title" required /> {" "}
-            <input type="text" name="description" placeholder="Enter description" required /> {" "}
+            <input type="hidden" name="_id" value={1} />  {/* satisfy zod required */}
+            <input type="text" name="_title" placeholder="Enter title" required /> {" "}
+            <input type="text" name="_description" placeholder="Enter description" required /> {" "}
             <button type="submit" name="_action" value="create">Add</button>
           </Form>
 
