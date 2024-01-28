@@ -89,7 +89,12 @@ function DeleteItem({item}:any) {
 
 return (
       <li key={item.id}>
-       <span style={{opacity: isDeleting ? 0.25 :1 }}><label>{item.id}</label>{" "}<label>{item.title}</label>{" "}<label>{item.description}</label></span>
+
+       <span style={{opacity: isDeleting ? 0.25 : 1 }}>
+          <label>{item.id}</label>{" "}
+          <label>{item.title}</label>{" "}
+          <label>{item.description}</label>
+       </span>
       <deleteFetcher.Form style={{display: "inline",}} method="post">
         <input 
             type="hidden"
