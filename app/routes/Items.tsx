@@ -79,15 +79,15 @@ export default function DisplayItems() {
         <Link to="/">Home</Link>
 
       </main> 
-  ); // return
-}
+  ); 
+} 
 
 function DeleteItem({item}:any) {
 
    const deleteFetcher = useFetcher()
    let isDeleting = deleteFetcher.state  === 'submitting';
 
-return (
+   return (
       <li key={item.id}>
 
        <span style={{opacity: isDeleting ? 0.25 : 1 }}>
