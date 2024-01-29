@@ -1,6 +1,5 @@
 /******************************************************
  * 
- * 
  *    Naming Conventions will cure most headaches
  * 
 ************************************************************ */
@@ -65,8 +64,7 @@ export async function action({
 
   } // action()
              
-// Rendering Component
-export default function ItemsComponent() {
+export default function ItemsPage() {
 
     const ItemsDataSets = useLoaderData <typeof loader>(); // Items =  dataset(s) of type json
 
