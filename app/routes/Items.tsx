@@ -1,3 +1,10 @@
+/******************************************************
+ * 
+ * 
+ *    Naming Conventions will cure most headaches
+ * 
+************************************************************ */
+
 import { db } from "~/db/config.server";
 import { ActionFunctionArgs, json} from "@remix-run/node";
 import {  Form, Link, useFetcher, useLoaderData, useNavigation} from "@remix-run/react";
@@ -69,20 +76,20 @@ export default function DisplayItems() {
         {ItemsDataSets.length ? (
             <ul>
                 { ItemsDataSets.map((item) => (
-                  <DeleteItem item={item} key={item.id} />
+                  <DeleteItemForm item={item} key={item.id} />
              ))}
             </ul>
            ) : (
             <p> Empty Items List </p>
           )} 
-        <CreateItem />
+        <CreateItemForm />
         <Link to="/">Home</Link>
 
       </main> 
   ); 
 } 
 
-function DeleteItem({item}:any) {
+function DeleteItemForm({item}:any) {
 
    const deleteFetcher = useFetcher()
    let isDeleting = deleteFetcher.state  === 'submitting';
@@ -119,7 +126,7 @@ function DeleteItem({item}:any) {
 )
 }
 
-function CreateItem() {
+function CreateItemForm() {
 
   let createFetcher =  useFetcher(); 
   let isAdding = createFetcher.state  === 'submitting';
