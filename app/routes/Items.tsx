@@ -66,7 +66,7 @@ export async function action({
   } // action()
              
 // Rendering Component
-export default function DisplayItemsComponent() {
+export default function ItemsComponent() {
 
     const ItemsDataSets = useLoaderData <typeof loader>(); // Items =  dataset(s) of type json
 
