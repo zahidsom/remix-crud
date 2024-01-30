@@ -6,7 +6,7 @@
 
 import { db } from "~/db/config.server";
 import { ActionFunctionArgs, json} from "@remix-run/node";
-import {  Link, useFetcher, useLoaderData, useNavigation} from "@remix-run/react";
+import {  Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { items } from "~/db/schema.server";
 import { eq } from "drizzle-orm";
 import { zfd } from "zod-form-data";
@@ -75,7 +75,7 @@ export default function ItemsPage() {
         {ItemsDataSets.length ? (
             <ul>
                 { ItemsDataSets.map((item) => (
-                  <DeleteItemForm id={item.id} 
+                  <DeleteItemForm id={item.id}
                                   title={item.title} 
                                   description={item.description}
                                   key={item.id} /> 
