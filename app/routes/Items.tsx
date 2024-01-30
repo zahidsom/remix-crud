@@ -1,6 +1,6 @@
 /******************************************************
  * 
- *    Naming Conventions will cure most headaches
+ *    Naming Conventions cures most headaches
  * 
 ************************************************************ */
 
