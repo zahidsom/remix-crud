@@ -6,7 +6,7 @@
 
 import { db } from "~/db/config.server";
 import { ActionFunctionArgs, json} from "@remix-run/node";
-import {  Form, Link, useFetcher, useLoaderData, useNavigation} from "@remix-run/react";
+import {  Link, useFetcher, useLoaderData, useNavigation} from "@remix-run/react";
 import { items } from "~/db/schema.server";
 import { eq } from "drizzle-orm";
 import { zfd } from "zod-form-data";
@@ -66,7 +66,8 @@ export async function action({
              
 export default function ItemsPage() {
 
-    const ItemsDataSets = useLoaderData <typeof loader>(); // Items =  dataset(s) of type json
+  
+  const  ItemsDataSets  = useLoaderData <typeof loader>(); 
 
     return (
       <main>
@@ -74,7 +75,10 @@ export default function ItemsPage() {
         {ItemsDataSets.length ? (
             <ul>
                 { ItemsDataSets.map((item) => (
-                  <DeleteItemForm id={item.id} title={item.title} description={item.description} key={item.id} /> 
+                  <DeleteItemForm id={item.id} 
+                                  title={item.title} 
+                                  description={item.description}
+                                  key={item.id} /> 
              ))}
             </ul>
            ) : (
@@ -86,7 +90,6 @@ export default function ItemsPage() {
       </main> 
   ); 
 } 
-
 
 type ItemProps = {
   id: number,    
