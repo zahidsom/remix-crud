@@ -1,6 +1,6 @@
 /*************************************************************
  * 
- *    Naming Conventions cures most headaches
+ *   let Naming Conventions be your guide 
  * 
 ************************************************************ */
 
