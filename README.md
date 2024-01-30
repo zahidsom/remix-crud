@@ -5,7 +5,8 @@ drizzle ORM https://orm.drizzle.team/docs/select ,
 SQLite ,
 Remix , 
 CRUD Operations , 
-AND Multiple Forms on single page.  
+AND Multiple Forms on single page.
+use of TyepScript
 
 - [Remix Docs](https://remix.run/docs)
 
