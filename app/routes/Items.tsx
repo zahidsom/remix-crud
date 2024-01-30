@@ -74,7 +74,7 @@ export default function ItemsPage() {
         {ItemsDataSets.length ? (
             <ul>
                 { ItemsDataSets.map((item) => (
-                  <DeleteItemForm item={item} key={item.id} />
+                  <DeleteItemForm id={item.id} title={item.title} description={item.description} key={item.id} /> 
              ))}
             </ul>
            ) : (
@@ -87,24 +87,32 @@ export default function ItemsPage() {
   ); 
 } 
 
-function DeleteItemForm({item}:any) {
+
+type ItemProps = {
+  id: number,    
+  title: string,
+  description : string | null  
+};
+
+
+function DeleteItemForm  ({id,title,description}  : ItemProps )  {
 
    const deleteFetcher = useFetcher()
    let isDeleting = deleteFetcher.state  === 'submitting';
 
    return (
-      <li key={item.id}>
+      <li key={id}>
 
        <span style={{opacity: isDeleting ? 0.25 : 1 }}>
-          <label>{item.id}</label>{" "}
-          <label>{item.title}</label>{" "}
-          <label>{item.description}</label>
+          <label>{id}</label>{" "}
+          <label>{title}</label>{" "}
+          <label>{description}</label>
        </span>
       <deleteFetcher.Form style={{display: "inline",}} method="post">
         <input 
             type="hidden"
             name="_id"
-            value={item.id} 
+            value={id} 
             />  {/* for use in delete,  where clause */}
           
           <button
